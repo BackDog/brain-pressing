@@ -5,14 +5,21 @@ const express = require('express');
 
 const { WebSocket, WebSocketServer } = require('ws');
 
+const cors       = require('cors');
+const bodyParser  = require('body-parser');
 const https = require('https');
-const brain = require('brain.js');
+const { brain } = require('brain.js');
 var parse = require('node-html-parser');
 
 const PORT = process.env.PORT || 8889;
 
 var app = express();
 app.use(express.static(__dirname + '/public'));
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cors());
+app.options('*', cors());
 
 var server = app.listen(PORT, function () {
     var host = server.address().address;
@@ -48,11 +55,15 @@ wss.on('connection', function connection(ws) {
 	});
 });
 
-
 app.post('/prediction', function (req, res, next) {
+	console.log(req.body);
     var body = req.body;
-    var json = calculatePrediction(body.url);
+    var json = calculatePrediction(body.link);
     res.send(JSON.stringify(json));
+});
+
+app.get('/prediction', function (req, res) {
+    res.end('NOOOOOOOOOOOOOOOOOOOO');
 });
 
 function isJsonString(str) {
@@ -162,7 +173,7 @@ async function getData(name, path, preArray, callback){
 }
 
 function calculatePrediction(url) {
-  const net = new brain.NeuralNetwork();
+  var net = new brain.NeuralNetwork();
   var dataSplit = url.split('/');
   var typeGame = dataSplit[3];
   var team = dataSplit[6].split('-vs-');
