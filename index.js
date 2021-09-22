@@ -171,7 +171,8 @@ async function getData(name, path, preArray, callback){
    callback(array);
 }
 
-function calculatePrediction(url, res) {
+function calculatePrediction(url, res) {	
+	try {
   var net = new brain.NeuralNetwork();
   var dataSplit = url.split('/');
   var typeGame = dataSplit[3];
@@ -232,4 +233,7 @@ function calculatePrediction(url, res) {
       });
     });
   });
+  } catch (error) {
+  	res.send(JSON.stringify({error: 'something happen'}));
+  }
 }
