@@ -219,15 +219,16 @@ function calculatePrediction(url) {
         input['day-' + d.getDate()] = 1;
 
         const output = net.run(input);
-        // console.log(output);
-        // console.log('training data size', trainArray.length);
-        // console.log(name1, output[name1 + '-win']);
-        // console.log(name2, output[name2 + '-win']);
+        console.log(output);
+        console.log('training data size', trainArray.length);
+        console.log(name1, output[name1 + '-win']);
+        console.log(name2, output[name2 + '-win']);
         var json = {
         	size: trainArray.length,
         }
         json[name1] = output[name1 + '-win'];
         json[name2] = output[name2 + '-win'];
+        console.log(json);
         return json;
       });
     });
