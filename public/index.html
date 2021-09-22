@@ -1,0 +1,20 @@
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<div ng-app="myApp">
+	<div ng-controller="MainCtrl">
+		<input type="text" name="url" ng-model="url" style="width: 300px;">
+		<button ng-click="send()">send</button>
+		{{data}}
+	</div>
+</div>
+<script>
+var app = angular.module('myApp', []);
+app.controller('MainCtrl', function($scope, $http, $templateRequest, $sce, $compile) {
+	$scope.url = "";
+	$scope.data = {};
+	$scope.send = function() {
+		$http.post("/prediction" + name, {url: $scope.url).then(function (response) {
+			$scope.data = response.data;
+    	});
+	}
+});
+</script>
