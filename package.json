@@ -13,6 +13,7 @@
     "express": "^4.17.1",
     "fs": "0.0.1-security",
     "https": "^1.0.0",
-    "node-html-parser": "^4.1.5"
+    "node-html-parser": "^4.1.5",
+    "ws": "^8.2.2"
   }
 }
