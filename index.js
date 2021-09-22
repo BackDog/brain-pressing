@@ -58,8 +58,7 @@ wss.on('connection', function connection(ws) {
 app.post('/prediction', function (req, res, next) {
 	console.log(req.body);
     var body = req.body;
-    var json = calculatePrediction(body.link);
-    res.send(JSON.stringify(json));
+    var json = calculatePrediction(body.link, res);
 });
 
 app.get('/prediction', function (req, res) {
@@ -172,7 +171,7 @@ async function getData(name, path, preArray, callback){
    callback(array);
 }
 
-function calculatePrediction(url) {
+function calculatePrediction(url, res) {
   var net = new brain.NeuralNetwork();
   var dataSplit = url.split('/');
   var typeGame = dataSplit[3];
@@ -219,17 +218,17 @@ function calculatePrediction(url) {
         input['day-' + d.getDate()] = 1;
 
         const output = net.run(input);
-        console.log(output);
-        console.log('training data size', trainArray.length);
-        console.log(name1, output[name1 + '-win']);
-        console.log(name2, output[name2 + '-win']);
+        // console.log(output);
+        // console.log('training data size', trainArray.length);
+        // console.log(name1, output[name1 + '-win']);
+        // console.log(name2, output[name2 + '-win']);
         var json = {
         	size: trainArray.length,
         }
         json[name1] = output[name1 + '-win'];
         json[name2] = output[name2 + '-win'];
         console.log(json);
-        return json;
+        res.send(JSON.stringify(json));
       });
     });
   });
