@@ -185,9 +185,9 @@ function calculatePrediction(url, res) {
   var pathTeam2 = typeGame + '/team/' + name2;
   var pathHistory = typeGame + '/history/' + name1 + '-vs-' + name2;
 
-  getData(typeGame, pathTeam1, [], function(data1) {
-    getData(typeGame, pathTeam2, data1, function(data2) {
-      getData(typeGame, pathHistory, data2, function(data3) {
+  getData(typeGame, pathHistory, [], function(data1) {
+    getData(typeGame, pathTeam1, data1, function(data2) {
+      getData(typeGame, pathTeam2, data2, function(data3) {
         var trainArray = [];
         for (const d of data3) {
           var obj = { input: {} , output: {}};
