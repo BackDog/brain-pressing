@@ -189,7 +189,7 @@ function calculatePrediction(url, res) {
     getData(typeGame, pathTeam2, data1, function(data2) {
       getData(typeGame, pathHistory, data2, function(data3) {
         var trainArray = [];
-        for (const d of data2) {
+        for (const d of data3) {
           var obj = { input: {} , output: {}};
 
           obj.input[d.typeGame] = 1;
@@ -234,6 +234,6 @@ function calculatePrediction(url, res) {
     });
   });
   } catch (error) {
-  	res.send(JSON.stringify({error: 'something happen'}));
+  	res.send(JSON.stringify({error: error}));
   }
 }
