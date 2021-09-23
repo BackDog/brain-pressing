@@ -209,7 +209,7 @@ function calculatePrediction(url, res) {
         net.train(trainArray);
         var input = {};
         input[name1] = 1;
-        input[name2] = 2;
+        input[name2] = 1;
         input[dataSplit[5]] = 1;
         input[dataSplit[4]] = 1;
 
@@ -224,7 +224,6 @@ function calculatePrediction(url, res) {
         // console.log(name1, output[name1 + '-win']);
         // console.log(name2, output[name2 + '-win']);
         var json = {
-        	output: output,
         	size: trainArray.length
         }
         json[name1] = output[name1 + '-win'];
