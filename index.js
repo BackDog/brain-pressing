@@ -224,7 +224,8 @@ function calculatePrediction(url, res) {
         // console.log(name1, output[name1 + '-win']);
         // console.log(name2, output[name2 + '-win']);
         var json = {
-        	size: trainArray.length,
+        	output: output,
+        	size: trainArray.length
         }
         json[name1] = output[name1 + '-win'];
         json[name2] = output[name2 + '-win'];
