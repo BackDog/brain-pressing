@@ -208,6 +208,7 @@ function calculatePrediction(url, res) {
         }
         net.train(trainArray);
         var input = {};
+        input[typeGame] = 1;
         input[name1] = 1;
         input[name2] = 1;
         input[dataSplit[5]] = 1;
@@ -216,8 +217,8 @@ function calculatePrediction(url, res) {
         const d = new Date();
         input['year-' + d.getFullYear()] = 1;
         input['month-' + d.getMonth()] = 1;
-		nput[d.year + '-' + d.month] = 1;
-		
+		input[d.year + '-' + d.month] = 1;
+
         const output = net.run(input);
         // console.log(output);
         // console.log('training data size', trainArray.length);
