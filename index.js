@@ -229,8 +229,8 @@ function calculatePrediction(url, res) {
         }
         json[name1] = output[name1 + '-win'].toFixed(2);
         json[name2] = output[name2 + '-win'].toFixed(2);
-        json.teamName1 = name1 + '-win';
-        json.teamName2 = name2 + '-win';
+        json.teamName1 = name1;
+        json.teamName2 = name2;
         console.log(json);
         res.send(JSON.stringify(json));
       });
