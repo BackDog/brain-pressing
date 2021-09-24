@@ -185,11 +185,11 @@ function calculatePrediction(url, res) {
   var pathTeam2 = typeGame + '/team/' + name2;
   var pathHistory = typeGame + '/history/' + name1 + '-vs-' + name2;
 
-  getData(typeGame, pathHistory, [], function(data1) {
-    getData(typeGame, pathTeam1, data1, function(data2) {
-      getData(typeGame, pathTeam2, data2, function(data3) {
+  getData(typeGame, pathTeam1, [], function(data1) {
+    getData(typeGame, pathTeam2, data1, function(data2) {
+      getData(typeGame, pathHistory, data2, function(data3) {
         var trainArray = [];
-        for (const d of data3) {
+        for (const d of data2) {
           var obj = { input: {} , output: {}};
 
           obj.input[d.typeGame] = 1;
@@ -198,7 +198,7 @@ function calculatePrediction(url, res) {
           obj.input[d.leagueLink.split('/')[2]] = 1;
           obj.input['year-' + d.year] = 1;
           obj.input['month-' + d.month] = 1;
-          obj.input['day-' + d.day] = 1;
+          obj.input[d.year + '-' + d.month] = 1;
 
           obj.output[d.teamName1 + '-win'] = ((d.score === '2 : 0') || (d.score === '2 : 1')
             || (d.score === '3 : 1') || (d.score === '3 : 2') || (d.score === '3 : 0')) ? 1 : 0;
@@ -216,8 +216,8 @@ function calculatePrediction(url, res) {
         const d = new Date();
         input['year-' + d.getFullYear()] = 1;
         input['month-' + d.getMonth()] = 1;
-        input['day-' + d.getDate()] = 1;
-
+		nput[d.year + '-' + d.month] = 1;
+		
         const output = net.run(input);
         // console.log(output);
         // console.log('training data size', trainArray.length);
