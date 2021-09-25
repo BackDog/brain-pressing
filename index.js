@@ -202,9 +202,9 @@ function calculatePrediction(url, res) {
           for ( var i of array) {
           	obj.input[i] = 1;	
           }
-          obj.input['year-'    + d.year]    = 1;
-          obj.input['month-' + d.month] = 1;
-          obj.input[d.year + '-' + d.month] = 1;
+//           obj.input['year-'    + d.year]    = 1;
+//           obj.input['month-' + d.month] = 1;
+//           obj.input[d.year + '-' + d.month] = 1;
 
           obj.output[d.teamName1 + '-win'] = ((d.score === '2 : 0') || (d.score === '2 : 1')
             || (d.score === '3 : 1') || (d.score === '3 : 2') || (d.score === '3 : 0')) ? 1 : 0;
@@ -224,10 +224,10 @@ function calculatePrediction(url, res) {
         	input[i] = 1;	
         }
 
-        const d = new Date();
-        input['year-'    + d.getFullYear()] = 1;
-        input['month-' + d.getMonth()]    = 1;
-	input[d.year + '-' + d.month] = 1;
+//         const d = new Date();
+//         input['year-'    + d.getFullYear()] = 1;
+//         input['month-' + d.getMonth()]    = 1;
+// 	input[d.year + '-' + d.month] = 1;
 
         const output = net.run(input);
         // console.log(output);
