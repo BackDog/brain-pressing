@@ -237,8 +237,8 @@ function calculatePrediction(url, res) {
         var json = {
         	size: trainArray.length
         }
-        json[name1] = output[name1 + '-win'].toFixed(2);
-        json[name2] = output[name2 + '-win'].toFixed(2);
+        json[name1] = output[name1 + '-win'];
+        json[name2] = output[name2 + '-win'];
         json.teamName1 = name1;
         json.teamName2 = name2;
         console.log(json);
