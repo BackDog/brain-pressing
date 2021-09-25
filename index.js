@@ -76,7 +76,7 @@ function isJsonString(str) {
 
 function saveLog(json) {
     var data = JSON.stringify(json);
-    fs.appendFile('log.txt', data);
+    fs.appendFile('public/log.txt', data);
 }
 
 async function chttps(method, url, data) {
