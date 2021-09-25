@@ -4,9 +4,9 @@
 		<input type="text" ng-model="link" style="width: 400px;">
 		<button ng-click="send()">send</button><br>
 		<strong>{{data.teamName1}}</strong>
-		<strong style="font-size: 20px">{{(data[data.teamName1]/(data[data.teamName1]+data[data.teamName2]))*100}}%</strong><br>
+		<strong style="font-size: 20px">{{((data[data.teamName1]/(data[data.teamName1]+data[data.teamName2]))*100).toFixed(2)}}%</strong><br>
 		<strong>{{data.teamName2}}</strong>
-		<strong style="font-size: 20px">{{(data[data.teamName2]/(data[data.teamName1]+data[data.teamName2]))*100}}%</strong><br>
+		<strong style="font-size: 20px">{{((data[data.teamName2]/(data[data.teamName1]+data[data.teamName2]))*100).toFixed(2)}}%</strong><br>
 		{{data}}<br>
 	</div>
 
