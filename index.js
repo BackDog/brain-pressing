@@ -198,6 +198,10 @@ function calculatePrediction(url, res) {
           obj.input[d.teamName1] = 1;
           obj.input[d.teamName2] = 1;
           obj.input[d.leagueLink.split('/')[2]] = 1;
+          var array = d.leagueLink.split('/')[2].split('-');
+          for ( var i of array) {
+          	obj.input[i] = 1;	
+          }
           obj.input['year-'    + d.year]    = 1;
           obj.input['month-' + d.month] = 1;
           obj.input[d.year + '-' + d.month] = 1;
@@ -215,6 +219,10 @@ function calculatePrediction(url, res) {
         input[name2] = 1;
         input[dataSplit[5]] = 1;
         input[dataSplit[4]] = 1;
+        var array = dataSplit[4].split('-');
+        for ( var i of array) {
+        	input[i] = 1;	
+        }
 
         const d = new Date();
         input['year-'    + d.getFullYear()] = 1;
