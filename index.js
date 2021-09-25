@@ -184,19 +184,21 @@ function calculatePrediction(url, res) {
   var pathTeam1 = typeGame + '/team/' + name1;
   var pathTeam2 = typeGame + '/team/' + name2;
   var pathHistory = typeGame + '/history/' + name1 + '-vs-' + name2;
-
+ var pathTourament = typeGame + '/' + dataSplit[4] + '/' + dataSplit[5]; 
+ 
   getData(typeGame, pathTeam1, [], function(data1) {
     getData(typeGame, pathTeam2, data1, function(data2) {
       getData(typeGame, pathHistory, data2, function(data3) {
+      getData(typeGame, pathTourament, data3, function(data4) {
         var trainArray = [];
-        for (const d of data3) {
+        for (const d of data4) {
           var obj = { input: {} , output: {}};
 
           obj.input[d.typeGame] = 1;
           obj.input[d.teamName1] = 1;
           obj.input[d.teamName2] = 1;
           obj.input[d.leagueLink.split('/')[2]] = 1;
-          obj.input['year-' + d.year] = 1;
+          obj.input['year-'    + d.year]    = 1;
           obj.input['month-' + d.month] = 1;
           obj.input[d.year + '-' + d.month] = 1;
 
@@ -215,9 +217,9 @@ function calculatePrediction(url, res) {
         input[dataSplit[4]] = 1;
 
         const d = new Date();
-        input['year-' + d.getFullYear()] = 1;
-        input['month-' + d.getMonth()] = 1;
-		input[d.year + '-' + d.month] = 1;
+        input['year-'    + d.getFullYear()] = 1;
+        input['month-' + d.getMonth()]    = 1;
+	input[d.year + '-' + d.month] = 1;
 
         const output = net.run(input);
         // console.log(output);
@@ -233,6 +235,7 @@ function calculatePrediction(url, res) {
         json.teamName2 = name2;
         console.log(json);
         res.send(JSON.stringify(json));
+        });
       });
     });
   });
