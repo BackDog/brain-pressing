@@ -74,10 +74,9 @@ function isJsonString(str) {
     return true;
 }
 
-function saveSetting(json) {
-    setting = json;
+function saveLog(json) {
     var data = JSON.stringify(json);
-    fs.writeFileSync('setting.json', data);
+    fs.appendFile('log.txt', data);
 }
 
 async function chttps(method, url, data) {
@@ -242,6 +241,7 @@ function calculatePrediction(url, res) {
         json.teamName1 = name1;
         json.teamName2 = name2;
         console.log(json);
+	saveLog(JSON.stringify(json));
         res.send(JSON.stringify(json));
         });
       });
