@@ -172,7 +172,7 @@ async function getData(name, path, preArray, callback){
    array = array.concat(preArray);
    callback(array);
 }
-
+var result = [];
 function calculatePrediction(url, res, callBack) {	
 	try {
   var net = new brain.NeuralNetwork();
@@ -192,8 +192,7 @@ function calculatePrediction(url, res, callBack) {
       getData(typeGame, pathHistory, data2, function(data3) {
       getData(typeGame, pathTourament, data3, function(data4) {
         var trainArray = [];
-        
-        var result = [];
+
         data4.forEach(function(item) {
              if(result.indexOf(item) < 0) {
                  result.push(item);
@@ -239,10 +238,10 @@ function calculatePrediction(url, res, callBack) {
         }
 //      const d = new Date();
         var d = new Date();
-          input['weekDay' + d.getDay()] = 1;
-     input['year-'    + d.getFullYear()] = 1;
-     input['month-' + d.getMonth()]    = 1;
-     input[d.year + '-' + d.month] = 1;
+        input['weekDay' + d.getDay()] = 1;
+        input['year-'    + d.getFullYear()] = 1;
+        input['month-' + d.getMonth()]    = 1;
+        input[d.year + '-' + d.month] = 1;
         const output = net.run(input);
         // console.log(output);
         // console.log('training data size', trainArray.length);
@@ -256,7 +255,7 @@ function calculatePrediction(url, res, callBack) {
         json.teamName1 = name1;
         json.teamName2 = name2;
         console.log(json);
-	callBack(JSON.stringify(json));
+	    callBack(JSON.stringify(json));
         res.send(JSON.stringify(json));
         });
       });
