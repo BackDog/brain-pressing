@@ -173,6 +173,7 @@ async function getData(name, path, preArray, callback){
    callback(array);
 }
 var result = [];
+var trainedArray = []
 var net = new brain.NeuralNetwork();
 
 function calculatePrediction(url, res, callBack) {	
@@ -192,7 +193,8 @@ function calculatePrediction(url, res, callBack) {
   getData(typeGame, pathTeam1, [], function(data1) {
     getData(typeGame, pathTeam2, data1, function(data2) {
       getData(typeGame, pathHistory, data2, function(data3) {
-      getData(typeGame, pathTourament, data3, function(data4) {
+        getData(typeGame, pathTourament, data3, function(data4) {
+
         data4.forEach(function(item) {
             if(result.indexOf(item) < 0) {
                 result.push(item);
@@ -222,8 +224,9 @@ function calculatePrediction(url, res, callBack) {
             || (d.score === '1 : 3') || (d.score === '2 : 3') || (d.score === '0 : 3')) ? 1 : 0;
           trainArray.push(obj);
         }
-
-        net.train(trainArray, {keepNetworkIntact:true});
+        
+        trainedArray = trainedArray.concat(trainArray);
+        net.train(trainedArray, {keepNetworkIntact:true});
         var input = {};
         input[typeGame] = 1;
         input[name1] = 1;
