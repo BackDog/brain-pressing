@@ -58,7 +58,7 @@ wss.on('connection', function connection(ws) {
 app.post('/prediction', function (req, res, next) {
 	console.log(req.body);
     var body = req.body;
-    var json = calculatePrediction(body.link, res);
+    var json = calculatePrediction(body.link, res, saveLog);
 });
 
 app.get('/prediction', function (req, res) {
@@ -170,7 +170,7 @@ async function getData(name, path, preArray, callback){
    callback(array);
 }
 
-function calculatePrediction(url, res) {	
+function calculatePrediction(url, res, callBack) {	
 	try {
   var net = new brain.NeuralNetwork();
   var dataSplit = url.split('/');
@@ -241,7 +241,7 @@ function calculatePrediction(url, res) {
         json.teamName1 = name1;
         json.teamName2 = name2;
         console.log(json);
-	fs.appendFile('public/log.txt', JSON.stringify(json));
+	callBack(JSON.stringify(json));
         res.send(JSON.stringify(json));
         });
       });
