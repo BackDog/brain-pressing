@@ -206,7 +206,7 @@ function calculatePrediction(url, res, callBack) {
         });
 
         var trainArray = [];
-        for (const d of result) {
+        for (const d of result[typeGame]) {
           var obj = { input: {} , output: {}};
 
           obj.input[d.typeGame] = 1;
