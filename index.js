@@ -230,7 +230,7 @@ function calculatePrediction(url, res, callBack) {
           trainArray.push(obj);
         }
 
-        net[typeGame].train(trainArray, {keepNetworkIntact:true});
+        net[typeGame].train(trainArray);
         var input = {};
         input[typeGame] = 1;
         input[name1] = 1;
