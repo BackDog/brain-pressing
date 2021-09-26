@@ -192,7 +192,15 @@ function calculatePrediction(url, res, callBack) {
       getData(typeGame, pathHistory, data2, function(data3) {
       getData(typeGame, pathTourament, data3, function(data4) {
         var trainArray = [];
-        for (const d of data4) {
+        
+        var result = [];
+        data4.forEach(function(item) {
+             if(result.indexOf(item) < 0) {
+                 result.push(item);
+             }
+        });
+
+        for (const d of result) {
           var obj = { input: {} , output: {}};
 
           obj.input[d.typeGame] = 1;
