@@ -194,7 +194,8 @@ function calculatePrediction(url, res, callBack) {
   var pathTeam1 = typeGame + '/team/' + name1;
   var pathTeam2 = typeGame + '/team/' + name2;
   var pathHistory = typeGame + '/history/' + name1 + '-vs-' + name2;
- var pathTourament = typeGame + '/' + dataSplit[4] + '/' + dataSplit[5]; 
+    var pathTourament = typeGame + '/' + dataSplit[4] + '/' + dataSplit[5]; 
+
   getData(typeGame, pathTeam1, [], function(data1) {
     getData(typeGame, pathTeam2, data1, function(data2) {
       getData(typeGame, pathHistory, data2, function(data3) {
@@ -247,7 +248,7 @@ function calculatePrediction(url, res, callBack) {
         input['month-' + d.getMonth()]    = 1;
         input[d.year + '-' + d.month] = 1;
         const output = net[typeGame].run(input);
-        // console.log(output);
+        console.log(output);
         // console.log('training data size', trainArray.length);
         // console.log(name1, output[name1 + '-win']);
         // console.log(name2, output[name2 + '-win']);
