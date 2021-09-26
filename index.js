@@ -172,10 +172,18 @@ async function getData(name, path, preArray, callback){
    array = array.concat(preArray);
    callback(array);
 }
-var result = [];
+var result = {
+    'lol': [],
+    'csgo': [],
+    'dota-2': []
+};
+var net = {
+    'lol': new brain.NeuralNetwork(),
+    'csgo': new brain.NeuralNetwork(),
+    'dota-2': new brain.NeuralNetwork()
+}
 function calculatePrediction(url, res, callBack) {	
 	try {
-  var net = new brain.NeuralNetwork();
   var dataSplit = url.split('/');
   var typeGame = dataSplit[3];
   var team = dataSplit[6].split('-vs-');
@@ -191,22 +199,19 @@ function calculatePrediction(url, res, callBack) {
     getData(typeGame, pathTeam2, data1, function(data2) {
       getData(typeGame, pathHistory, data2, function(data3) {
       getData(typeGame, pathTourament, data3, function(data4) {
-        var trainArray = [];
-
         data4.forEach(function(item) {
-             if(result.indexOf(item) < 0) {
-                 result.push(item);
-             }
+            if(result[typeGame].indexOf(item) < 0) {
+                result[typeGame].push(item);
+            }
         });
 
+        var trainArray = [];
         for (const d of result) {
           var obj = { input: {} , output: {}};
 
           obj.input[d.typeGame] = 1;
           obj.input[d.teamName1] = 1;
           obj.input[d.teamName2] = 1;
-          obj.input[d.teamName1 + '-' + 'team1' ] = 1;
-          obj.input[d.teamName2 + '-' + 'team2' ] = 1;
           obj.input[d.leagueLink.split('/')[2]] = 1;
           var array = d.leagueLink.split('/')[2].split('-');
           for ( var i of array) {
@@ -223,13 +228,12 @@ function calculatePrediction(url, res, callBack) {
             || (d.score === '1 : 3') || (d.score === '2 : 3') || (d.score === '0 : 3')) ? 1 : 0;
           trainArray.push(obj);
         }
-        net.train(trainArray);
+
+        net[typeGame].train(trainArray, {keepNetworkIntact:true});
         var input = {};
         input[typeGame] = 1;
         input[name1] = 1;
         input[name2] = 1;
-        input[name1 + '-' + 'team1' ] = 1;
-        input[name2 + '-' + 'team2' ] = 1;
         input[dataSplit[5]] = 1;
         input[dataSplit[4]] = 1;
         var array = dataSplit[4].split('-');
@@ -242,7 +246,7 @@ function calculatePrediction(url, res, callBack) {
         input['year-'    + d.getFullYear()] = 1;
         input['month-' + d.getMonth()]    = 1;
         input[d.year + '-' + d.month] = 1;
-        const output = net.run(input);
+        const output = net[typeGame].run(input);
         // console.log(output);
         // console.log('training data size', trainArray.length);
         // console.log(name1, output[name1 + '-win']);
