@@ -195,6 +195,8 @@ function calculatePrediction(url, res) {
           obj.input[d.typeGame] = 1;
           obj.input[d.teamName1] = 1;
           obj.input[d.teamName2] = 1;
+          obj.input[d.teamName1 + '+' + 'team1' ] = 1;
+          obj.input[d.teamName2 + '+' + 'team2' ] = 1;
           obj.input[d.leagueLink.split('/')[2]] = 1;
           obj.input['year-' + d.year] = 1;
           obj.input['month-' + d.month] = 1;
@@ -211,6 +213,8 @@ function calculatePrediction(url, res) {
         input[typeGame] = 1;
         input[name1] = 1;
         input[name2] = 1;
+        input[name1 + '+' + 'team1' ] = 1;
+        input[name2 + '+' + 'team2' ] = 1;
         input[dataSplit[5]] = 1;
         input[dataSplit[4]] = 1;
 
