@@ -1,12 +1,13 @@
+<title>Brain Pressing</title>
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 <div ng-app="myApp">
 	<div ng-controller="MainCtrl">
 		<input type="text" ng-model="link" style="width: 400px;">
 		<button ng-click="send()">send</button><br>
 		<strong>{{data.teamName1}}</strong>
-		<strong style="font-size: 20px">{{data[data.teamName1]*100}}%</strong><br>
+		<strong style="font-size: 20px">{{((data[data.teamName1])*100).toFixed(2)}}%</strong><br>
 		<strong>{{data.teamName2}}</strong>
-		<strong style="font-size: 20px">{{data[data.teamName2]*100}}%</strong><br>
+		<strong style="font-size: 20px">{{((data[data.teamName2])*100).toFixed(2)}}%</strong><br>
 		{{data}}<br>
 	</div>
 

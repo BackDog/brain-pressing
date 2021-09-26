@@ -58,11 +58,12 @@ wss.on('connection', function connection(ws) {
 app.post('/prediction', function (req, res, next) {
 	console.log(req.body);
     var body = req.body;
-    var json = calculatePrediction(body.link, res);
+    var json = calculatePrediction(body.link, res, saveLog);
 });
 
 app.get('/prediction', function (req, res) {
-    res.end('NOOOOOOOOOOOOOOOOOOOO');
+	var body = fs.readFileSync('public/log.txt');
+    res.end(body);
 });
 
 function isJsonString(str) {
@@ -74,10 +75,11 @@ function isJsonString(str) {
     return true;
 }
 
-function saveSetting(json) {
-    setting = json;
+function saveLog(json) {
     var data = JSON.stringify(json);
-    fs.writeFileSync('setting.json', data);
+    fs.appendFile('public/log.txt', data, function(err, result) {
+     if(err) console.log('error', err);
+   });
 }
 
 async function chttps(method, url, data) {
@@ -171,7 +173,7 @@ async function getData(name, path, preArray, callback){
    callback(array);
 }
 
-function calculatePrediction(url, res) {	
+function calculatePrediction(url, res, callBack) {	
 	try {
   var net = new brain.NeuralNetwork();
   var dataSplit = url.split('/');
@@ -184,12 +186,14 @@ function calculatePrediction(url, res) {
   var pathTeam1 = typeGame + '/team/' + name1;
   var pathTeam2 = typeGame + '/team/' + name2;
   var pathHistory = typeGame + '/history/' + name1 + '-vs-' + name2;
-
+ var pathTourament = typeGame + '/' + dataSplit[4] + '/' + dataSplit[5]; 
+ 
   getData(typeGame, pathTeam1, [], function(data1) {
     getData(typeGame, pathTeam2, data1, function(data2) {
       getData(typeGame, pathHistory, data2, function(data3) {
+      getData(typeGame, pathTourament, data3, function(data4) {
         var trainArray = [];
-        for (const d of data3) {
+        for (const d of data4) {
           var obj = { input: {} , output: {}};
 
           obj.input[d.typeGame] = 1;
@@ -198,9 +202,13 @@ function calculatePrediction(url, res) {
           obj.input[d.teamName1 + '+' + 'team1' ] = 1;
           obj.input[d.teamName2 + '+' + 'team2' ] = 1;
           obj.input[d.leagueLink.split('/')[2]] = 1;
-          obj.input['year-' + d.year] = 1;
-          obj.input['month-' + d.month] = 1;
-          obj.input[d.year + '-' + d.month] = 1;
+          var array = d.leagueLink.split('/')[2].split('-');
+          for ( var i of array) {
+          	obj.input[i] = 1;	
+          }
+//           obj.input['year-'    + d.year]    = 1;
+//           obj.input['month-' + d.month] = 1;
+//           obj.input[d.year + '-' + d.month] = 1;
 
           obj.output[d.teamName1 + '-win'] = ((d.score === '2 : 0') || (d.score === '2 : 1')
             || (d.score === '3 : 1') || (d.score === '3 : 2') || (d.score === '3 : 0')) ? 1 : 0;
@@ -217,11 +225,15 @@ function calculatePrediction(url, res) {
         input[name2 + '+' + 'team2' ] = 1;
         input[dataSplit[5]] = 1;
         input[dataSplit[4]] = 1;
+        var array = dataSplit[4].split('-');
+        for ( var i of array) {
+        	input[i] = 1;	
+        }
 
-        const d = new Date();
-        input['year-' + d.getFullYear()] = 1;
-        input['month-' + d.getMonth()] = 1;
-		input[d.year + '-' + d.month] = 1;
+//         const d = new Date();
+//         input['year-'    + d.getFullYear()] = 1;
+//         input['month-' + d.getMonth()]    = 1;
+// 	input[d.year + '-' + d.month] = 1;
 
         const output = net.run(input);
         // console.log(output);
@@ -231,12 +243,14 @@ function calculatePrediction(url, res) {
         var json = {
         	size: trainArray.length
         }
-        json[name1] = output[name1 + '-win'].toFixed(2);
-        json[name2] = output[name2 + '-win'].toFixed(2);
+        json[name1] = output[name1 + '-win'];
+        json[name2] = output[name2 + '-win'];
         json.teamName1 = name1;
         json.teamName2 = name2;
         console.log(json);
+	callBack(JSON.stringify(json));
         res.send(JSON.stringify(json));
+        });
       });
     });
   });
