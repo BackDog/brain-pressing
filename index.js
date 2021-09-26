@@ -62,7 +62,8 @@ app.post('/prediction', function (req, res, next) {
 });
 
 app.get('/prediction', function (req, res) {
-    res.end('NOOOOOOOOOOOOOOOOOOOO');
+	var body = fs.readFileSync('public/log.txt');
+    res.end(body);
 });
 
 function isJsonString(str) {
