@@ -240,7 +240,7 @@ function calculatePrediction(url, res, callBack) {
         input['year-'    + d.getFullYear()] = 1;
         input['month-' + d.getMonth()]    = 1;
         input[d.year + '-' + d.month] = 1;
-        const output = net[typeGame].run(input);
+        const output = net.run(input);
         console.log(output);
         // console.log('training data size', trainArray.length);
         // console.log(name1, output[name1 + '-win']);
