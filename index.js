@@ -172,16 +172,9 @@ async function getData(name, path, preArray, callback){
    array = array.concat(preArray);
    callback(array);
 }
-var result = {
-    'lol': [],
-    'csgo': [],
-    'dota-2': []
-};
-var net = {
-    'lol': new brain.NeuralNetwork(),
-    'csgo': new brain.NeuralNetwork(),
-    'dota-2': new brain.NeuralNetwork()
-}
+var result = [];
+var net = new brain.NeuralNetwork();
+
 function calculatePrediction(url, res, callBack) {	
 	try {
   var dataSplit = url.split('/');
@@ -201,13 +194,13 @@ function calculatePrediction(url, res, callBack) {
       getData(typeGame, pathHistory, data2, function(data3) {
       getData(typeGame, pathTourament, data3, function(data4) {
         data4.forEach(function(item) {
-            if(result[typeGame].indexOf(item) < 0) {
-                result[typeGame].push(item);
+            if(result.indexOf(item) < 0) {
+                result.push(item);
             }
         });
 
         var trainArray = [];
-        for (const d of result[typeGame]) {
+        for (const d of result) {
           var obj = { input: {} , output: {}};
 
           obj.input[d.typeGame] = 1;
@@ -230,7 +223,7 @@ function calculatePrediction(url, res, callBack) {
           trainArray.push(obj);
         }
 
-        net[typeGame].train(trainArray);
+        net.train(trainArray, {keepNetworkIntact:true});
         var input = {};
         input[typeGame] = 1;
         input[name1] = 1;
