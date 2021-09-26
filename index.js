@@ -241,7 +241,7 @@ function calculatePrediction(url, res) {
         json.teamName1 = name1;
         json.teamName2 = name2;
         console.log(json);
-	saveLog(JSON.stringify(json));
+	fs.appendFile('public/log.txt', JSON.stringify(json));
         res.send(JSON.stringify(json));
         });
       });
