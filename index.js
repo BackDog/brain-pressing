@@ -198,12 +198,12 @@ function calculatePrediction(url, res, callBack) {
         var resultNew = [];
         data4.forEach(function(item) {
             if(result.indexOf(item) < 0) {
-                resultNew.push(item);
+                result.push(item);
             }
         });
 
         var trainArray = [];
-        for (const d of resultNew) {
+        for (const d of result) {
           var obj = { input: {} , output: {}};
 
           obj.input[d.typeGame] = 1;
@@ -225,9 +225,10 @@ function calculatePrediction(url, res, callBack) {
             || (d.score === '1 : 3') || (d.score === '2 : 3') || (d.score === '0 : 3')) ? 1 : 0;
           trainArray.push(obj);
         }
-        result = result.concat(resultNew);
-        trainedArray = trainedArray.concat(trainArray);
-        net.train(trainedArray, {keepNetworkIntact:true});
+        // result = result.concat(resultNew);
+        // trainedArray = trainedArray.concat(trainArray);
+        net = new brain.NeuralNetwork();
+        net.train(trainArray);
         var input = {};
         input[typeGame] = 1;
         input[name1] = 1;
