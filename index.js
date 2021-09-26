@@ -195,14 +195,15 @@ function calculatePrediction(url, res, callBack) {
       getData(typeGame, pathHistory, data2, function(data3) {
         getData(typeGame, pathTourament, data3, function(data4) {
 
+        var resultNew = [];
         data4.forEach(function(item) {
             if(result.indexOf(item) < 0) {
-                result.push(item);
+                resultNew.push(item);
             }
         });
 
         var trainArray = [];
-        for (const d of result) {
+        for (const d of resultNew) {
           var obj = { input: {} , output: {}};
 
           obj.input[d.typeGame] = 1;
@@ -224,7 +225,7 @@ function calculatePrediction(url, res, callBack) {
             || (d.score === '1 : 3') || (d.score === '2 : 3') || (d.score === '0 : 3')) ? 1 : 0;
           trainArray.push(obj);
         }
-        
+        result = result.concat(resultNew);
         trainedArray = trainedArray.concat(trainArray);
         net.train(trainedArray, {keepNetworkIntact:true});
         var input = {};
